@@ -107,6 +107,19 @@ if (! function_exists('now')) {
     }
 }
 
+if (! function_exists('today')) {
+    /**
+     * Create a new Carbon instance for the current date.
+     *
+     * @param null|\DateTimeZone|string $tz
+     * @return \Carbon\Carbon
+     */
+    function today($tz = null)
+    {
+        return \Carbon\Carbon::today($tz);
+    }
+}
+
 if (! function_exists('validator')) {
     /**
      * Create a new Validator instance.
