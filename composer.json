@@ -2,7 +2,9 @@
     "name": "friendsofhyperf/helpers",
     "description": "The commonly used functions for hyperf.",
     "type": "library",
-    "require": {},
+    "require": {
+        "php": ">=7.2"
+    },
     "require-dev": {
         "hyperf/framework": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.04",

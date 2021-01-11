@@ -39,6 +39,35 @@ if (! function_exists('app')) {
     }
 }
 
+if (! function_exists('blank')) {
+    /**
+     * Determine if the given value is "blank".
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    function blank($value)
+    {
+        if (is_null($value)) {
+            return true;
+        }
+
+        if (is_string($value)) {
+            return trim($value) === '';
+        }
+
+        if (is_numeric($value) || is_bool($value)) {
+            return false;
+        }
+
+        if ($value instanceof Countable) {
+            return count($value) === 0;
+        }
+
+        return empty($value);
+    }
+}
+
 if (! function_exists('cache')) {
     /**
      * Get / set the specified cache value.
@@ -99,6 +128,19 @@ if (! function_exists('cookie')) {
     }
 }
 
+if (! function_exists('filled')) {
+    /**
+     * Determine if a value is "filled".
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    function filled($value)
+    {
+        return ! blank($value);
+    }
+}
+
 if (! function_exists('info')) {
     /**
      * @param string $message
@@ -152,6 +194,51 @@ if (! function_exists('now')) {
     }
 }
 
+if (! function_exists('object_get')) {
+    /**
+     * Get an item from an object using "dot" notation.
+     *
+     * @param object $object
+     * @param null|string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function object_get($object, $key, $default = null)
+    {
+        if (is_null($key) || trim($key) == '') {
+            return $object;
+        }
+
+        foreach (explode('.', $key) as $segment) {
+            if (! is_object($object) || ! isset($object->{$segment})) {
+                return value($default);
+            }
+
+            $object = $object->{$segment};
+        }
+
+        return $object;
+    }
+}
+
+if (! function_exists('preg_replace_array')) {
+    /**
+     * Replace a given pattern with each value in the array in sequentially.
+     *
+     * @param string $pattern
+     * @param string $subject
+     * @return string
+     */
+    function preg_replace_array($pattern, array $replacements, $subject)
+    {
+        return preg_replace_callback($pattern, function () use (&$replacements) {
+            foreach ($replacements as $key => $value) {
+                return array_shift($replacements);
+            }
+        }, $subject);
+    }
+}
+
 if (! function_exists('session')) {
     /**
      * Get / set the specified session value.
@@ -188,6 +275,46 @@ if (! function_exists('today')) {
     function today($tz = null)
     {
         return \Carbon\Carbon::today($tz);
+    }
+}
+
+if (! function_exists('throw_if')) {
+    /**
+     * Throw the given exception if the given condition is true.
+     *
+     * @param mixed $condition
+     * @param string|\Throwable $exception
+     * @param array ...$parameters
+     * @throws \Throwable
+     * @return mixed
+     */
+    function throw_if($condition, $exception, ...$parameters)
+    {
+        if ($condition) {
+            throw (is_string($exception) ? new $exception(...$parameters) : $exception);
+        }
+
+        return $condition;
+    }
+}
+
+if (! function_exists('throw_unless')) {
+    /**
+     * Throw the given exception unless the given condition is true.
+     *
+     * @param mixed $condition
+     * @param string|\Throwable $exception
+     * @param array ...$parameters
+     * @throws \Throwable
+     * @return mixed
+     */
+    function throw_unless($condition, $exception, ...$parameters)
+    {
+        if (! $condition) {
+            throw (is_string($exception) ? new $exception(...$parameters) : $exception);
+        }
+
+        return $condition;
     }
 }
 
