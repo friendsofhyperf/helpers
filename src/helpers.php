@@ -130,7 +130,7 @@ if (! function_exists('cookie')) {
 
 if (! function_exists('dispatch')) {
     /**
-     * @param \Hyperf\AsyncQueue\JobInterface $job
+     * @param \Hyperf\Amqp\Message\ProducerMessage|\Hyperf\AsyncQueue\JobInterface $job
      * @param null|string $queue
      * @throws TypeError
      * @throws InvalidDriverException
