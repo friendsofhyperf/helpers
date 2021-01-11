@@ -146,7 +146,12 @@ if (! function_exists('dispatch')) {
             return $driver->push($job, $job->delay ?? 0);
         }
 
-        throw new \InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
+        if ($job instanceof \Hyperf\Amqp\Message\ProducerMessage) {
+            $producer = app(\Hyperf\Amqp\Producer::class);
+            return $producer->produce($job);
+        }
+
+        throw new \InvalidArgumentException('Not Support job type.');
     }
 }
 
@@ -164,7 +169,7 @@ if (! function_exists('dispatch_now')) {
             return $job->handle();
         }
 
-        throw new \InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
+        throw new \InvalidArgumentException('Not Support job type.');
     }
 }
 

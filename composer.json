@@ -17,7 +17,8 @@
         "hyperf/validation": "^2.1",
         "hyperf/session": "^2.1",
         "hyperf/cache": "^2.1",
-        "hyperf/async-queue": "^2.1"
+        "hyperf/async-queue": "^2.1",
+        "hyperf/amqp": "^2.1"
     },
     "autoload": {
         "files": [
