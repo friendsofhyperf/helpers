@@ -10,7 +10,8 @@
         "hyperf/utils": "^2.0",
         "hyperf/di": "^2.0",
         "hyperf/logger": "^2.0",
-        "phpstan/phpstan": "^0.12"
+        "phpstan/phpstan": "^0.12",
+        "nesbot/carbon": "^2.43"
     },
     "autoload": {
         "files": [

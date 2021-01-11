@@ -93,3 +93,16 @@ if (! function_exists('logs')) {
         return app(\Hyperf\Logger\LoggerFactory::class)->get($name, $group);
     }
 }
+
+if (! function_exists('now')) {
+    /**
+     * Create a new Carbon instance for the current time.
+     *
+     * @param null|\DateTimeZone|string $tz
+     * @return \Carbon\Carbon
+     */
+    function now($tz = null)
+    {
+        return \Carbon\Carbon::now($tz);
+    }
+}
