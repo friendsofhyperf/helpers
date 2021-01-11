@@ -8,15 +8,6 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
-use Hyperf\AsyncQueue\Exception\InvalidDriverException;
-
-/*
- * This file is part of hyperf/helpers.
- *
- * @link     https://github.com/friendsofhyperf/helpers
- * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
- * @contact  huangdijia@gmail.com
- */
 if (! function_exists('app')) {
     /**
      * @throws TypeError
@@ -41,7 +32,7 @@ if (! function_exists('app')) {
         }
 
         if (is_null($abstract)) {
-            throw new InvalidArgumentException('Invalid argument $abstract');
+            throw new \InvalidArgumentException('Invalid argument $abstract');
         }
 
         return new $abstract(...array_values($parameters));
@@ -155,7 +146,7 @@ if (! function_exists('dispatch')) {
             return $driver->push($job, $job->delay ?? 0);
         }
 
-        throw new InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
+        throw new \InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
     }
 }
 
@@ -173,7 +164,7 @@ if (! function_exists('dispatch_now')) {
             return $job->handle();
         }
 
-        throw new InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
+        throw new \InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
     }
 }
 
