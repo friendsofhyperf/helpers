@@ -8,6 +8,15 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
+use Hyperf\HttpMessage\Cookie\Cookie;
+
+/*
+ * This file is part of hyperf/helpers.
+ *
+ * @link     https://github.com/friendsofhyperf/helpers
+ * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
+ * @contact  huangdijia@gmail.com
+ */
 if (! function_exists('app')) {
     /**
      * @throws TypeError
@@ -104,6 +113,35 @@ if (! function_exists('now')) {
     function now($tz = null)
     {
         return \Carbon\Carbon::now($tz);
+    }
+}
+
+if (! function_exists('cookie')) {
+    /**
+     * Create a new cookie instance.
+     *
+     * @param null|string $name
+     * @param null|string $value
+     * @param int $minutes
+     * @param null|string $path
+     * @param null|string $domain
+     * @param null|bool $secure
+     * @param bool $httpOnly
+     * @param bool $raw
+     * @param null|string $sameSite
+     * @return \Hyperf\HttpMessage\Cookie\Cookie|\Hyperf\HttpMessage\Cookie\CookieJarInterface
+     */
+    function cookie($name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
+    {
+        $cookie = app(\Hyperf\HttpMessage\Cookie\CookieJarInterface::class);
+
+        if (is_null($name)) {
+            return $cookie;
+        }
+
+        $time = ($minutes == 0) ? 0 : $minutes * 60;
+
+        return new \Hyperf\HttpMessage\Cookie\Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
 }
 
