@@ -8,6 +8,15 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
+use Hyperf\AsyncQueue\Exception\InvalidDriverException;
+
+/*
+ * This file is part of hyperf/helpers.
+ *
+ * @link     https://github.com/friendsofhyperf/helpers
+ * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
+ * @contact  huangdijia@gmail.com
+ */
 if (! function_exists('app')) {
     /**
      * @throws TypeError
@@ -125,6 +134,46 @@ if (! function_exists('cookie')) {
         $time = ($minutes == 0) ? 0 : $minutes * 60;
 
         return new \Hyperf\HttpMessage\Cookie\Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
+    }
+}
+
+if (! function_exists('dispatch')) {
+    /**
+     * @param \Hyperf\AsyncQueue\JobInterface $job
+     * @param null|string $queue
+     * @throws TypeError
+     * @throws InvalidDriverException
+     * @throws InvalidArgumentException
+     * @return bool
+     */
+    function dispatch($job, $queue = null)
+    {
+        if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
+            /** @var \Hyperf\AsyncQueue\Driver\DriverInterface $driver */
+            $driver = app(\Hyperf\AsyncQueue\Driver\DriverFactory::class)->get($queue ?? $job->queue ?? 'default');
+
+            return $driver->push($job, $job->delay ?? 0);
+        }
+
+        throw new InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
+    }
+}
+
+if (! function_exists('dispatch_now')) {
+    /**
+     * @param \Hyperf\AsyncQueue\JobInterface $job
+     * @throws TypeError
+     * @throws InvalidDriverException
+     * @throws InvalidArgumentException
+     * @return mixed
+     */
+    function dispatch_now($job)
+    {
+        if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
+            return $job->handle();
+        }
+
+        throw new InvalidArgumentException(sprintf('Support job implemented by %s only.', \Hyperf\AsyncQueue\JobInterface::class));
     }
 }
 
