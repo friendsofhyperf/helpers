@@ -128,6 +128,18 @@ if (! function_exists('cookie')) {
     }
 }
 
+if (! function_exists('event')) {
+    /**
+     * Dispatch an event and call the listeners.
+     *
+     * @return object
+     */
+    function event(object $event)
+    {
+        return app(\Psr\EventDispatcher\EventDispatcherInterface::class)->dispatch($event);
+    }
+}
+
 if (! function_exists('filled')) {
     /**
      * Determine if a value is "filled".
