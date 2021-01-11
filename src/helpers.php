@@ -239,6 +239,64 @@ if (! function_exists('preg_replace_array')) {
     }
 }
 
+if (! function_exists('request')) {
+    /**
+     * Get an instance of the current request or an input item from the request.
+     *
+     * @param null|array|string $key
+     * @param mixed $default
+     * @return array|\Hyperf\HttpServer\Contract\RequestInterface|\Psr\Http\Message\RequestInterface|string
+     */
+    function request($key = null, $default = null)
+    {
+        $request = app(\Hyperf\HttpServer\Contract\RequestInterface::class);
+
+        if (is_null($key)) {
+            return $request;
+        }
+
+        if (is_array($key)) {
+            return $request->inputs($key, value($default));
+        }
+
+        return $request->input($key, value($default));
+    }
+}
+
+if (! function_exists('response')) {
+    /**
+     * Return a new response from the application.
+     *
+     * @param null|array|string $content
+     * @param int $status
+     * @return \Hyperf\HttpServer\Contract\ResponseInterface|\Psr\Http\Message\ResponseInterface
+     */
+    function response($content = '', $status = 200, array $headers = [])
+    {
+        /** @var \Hyperf\HttpServer\Contract\ResponseInterface|\Psr\Http\Message\ResponseInterface $response */
+        $response = app(\Hyperf\HttpServer\Contract\ResponseInterface::class);
+
+        if (func_num_args() === 0) {
+            return $response;
+        }
+
+        if (is_array($content)) {
+            $response->withAddedHeader('Content-Type', 'application/json');
+            $content = json_encode($content);
+        }
+
+        return tap(
+            $response->withBody(new \Hyperf\HttpMessage\Stream\SwooleStream((string) $content))
+                ->withStatus($status),
+            function ($response) use ($headers) {
+                foreach ($headers as $name => $value) {
+                    $response->withAddedHeader($name, $value);
+                }
+            }
+        );
+    }
+}
+
 if (! function_exists('session')) {
     /**
      * Get / set the specified session value.
