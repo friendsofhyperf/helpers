@@ -6,19 +6,19 @@
         "php": ">=7.2"
     },
     "require-dev": {
-        "hyperf/framework": "^2.0",
-        "friendsofphp/php-cs-fixer": "^2.04",
-        "swoole/ide-helper": "dev-master",
-        "hyperf/utils": "^2.0",
-        "hyperf/di": "^2.0",
-        "hyperf/logger": "^2.0",
-        "phpstan/phpstan": "^0.12",
-        "nesbot/carbon": "^2.43",
+        "hyperf/framework": "^2.1",
+        "hyperf/utils": "^2.1",
+        "hyperf/di": "^2.1",
+        "hyperf/logger": "^2.1",
         "hyperf/validation": "^2.1",
         "hyperf/session": "^2.1",
         "hyperf/cache": "^2.1",
         "hyperf/async-queue": "^2.1",
-        "hyperf/amqp": "^2.1"
+        "hyperf/amqp": "^2.1",
+        "friendsofphp/php-cs-fixer": "^2.14",
+        "phpstan/phpstan": "^0.12",
+        "nesbot/carbon": "^2.43",
+        "swoole/ide-helper": "dev-master"
     },
     "autoload": {
         "files": [
