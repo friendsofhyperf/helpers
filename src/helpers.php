@@ -47,18 +47,19 @@ if (! function_exists('cache')) {
      *
      * @param  dynamic  key|key,default|data,expiration|null
      * @throws \Exception
-     * @return mixed|\PhpCsFixer\Cache\CacheInterface
+     * @return mixed|\Psr\SimpleCache\CacheInterface
      */
     function cache()
     {
         $arguments = func_get_args();
+        $cache = app(\Psr\SimpleCache\CacheInterface::class);
 
         if (empty($arguments)) {
-            return app(\PhpCsFixer\Cache\CacheInterface::class);
+            return $cache;
         }
 
         if (is_string($arguments[0])) {
-            return app(\PhpCsFixer\Cache\CacheInterface::class)->get(...$arguments);
+            return $cache->get(...$arguments);
         }
 
         if (! is_array($arguments[0])) {
@@ -67,7 +68,7 @@ if (! function_exists('cache')) {
             );
         }
 
-        return app(\PhpCsFixer\Cache\CacheInterface::class)->set(key($arguments[0]), reset($arguments[0]), $arguments[1] ?? null);
+        return $cache->set(key($arguments[0]), reset($arguments[0]), $arguments[1] ?? null);
     }
 }
 
