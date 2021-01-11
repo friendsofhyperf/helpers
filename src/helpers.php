@@ -107,6 +107,32 @@ if (! function_exists('now')) {
     }
 }
 
+if (! function_exists('session')) {
+    /**
+     * Get / set the specified session value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param null|array|string $key
+     * @param mixed $default
+     * @return \Hyperf\Contract\SessionInterface|mixed
+     */
+    function session($key = null, $default = null)
+    {
+        $session = app(\Hyperf\Contract\SessionInterface::class);
+
+        if (is_null($key)) {
+            return $session;
+        }
+
+        if (is_array($key)) {
+            return $session->put($key);
+        }
+
+        return $session->get($key, $default);
+    }
+}
+
 if (! function_exists('today')) {
     /**
      * Create a new Carbon instance for the current date.
