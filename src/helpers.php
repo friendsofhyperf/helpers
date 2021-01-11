@@ -31,6 +31,10 @@ if (! function_exists('app')) {
             }
         }
 
+        if (is_null($abstract)) {
+            throw new InvalidArgumentException('Invalid argument $abstract');
+        }
+
         return new $abstract(...array_values($parameters));
     }
 }
