@@ -11,7 +11,8 @@
         "hyperf/di": "^2.0",
         "hyperf/logger": "^2.0",
         "phpstan/phpstan": "^0.12",
-        "nesbot/carbon": "^2.43"
+        "nesbot/carbon": "^2.43",
+        "hyperf/validation": "^2.1"
     },
     "autoload": {
         "files": [

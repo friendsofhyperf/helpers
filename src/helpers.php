@@ -106,3 +106,21 @@ if (! function_exists('now')) {
         return \Carbon\Carbon::now($tz);
     }
 }
+
+if (! function_exists('validator')) {
+    /**
+     * Create a new Validator instance.
+     *
+     * @return \Hyperf\Contract\ValidatorInterface|\Hyperf\Validation\ValidatorFactory
+     */
+    function validator(array $data = [], array $rules = [], array $messages = [], array $customAttributes = [])
+    {
+        $factory = app(\Hyperf\Validation\ValidatorFactory::class);
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($data, $rules, $messages, $customAttributes);
+    }
+}
