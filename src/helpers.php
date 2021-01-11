@@ -8,15 +8,6 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
-use Hyperf\HttpMessage\Cookie\Cookie;
-
-/*
- * This file is part of hyperf/helpers.
- *
- * @link     https://github.com/friendsofhyperf/helpers
- * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
- * @contact  huangdijia@gmail.com
- */
 if (! function_exists('app')) {
     /**
      * @throws TypeError
@@ -45,6 +36,38 @@ if (! function_exists('app')) {
         }
 
         return new $abstract(...array_values($parameters));
+    }
+}
+
+if (! function_exists('cache')) {
+    /**
+     * Get / set the specified cache value.
+     *
+     * If an array is passed, we'll assume you want to put to the cache.
+     *
+     * @param  dynamic  key|key,default|data,expiration|null
+     * @throws \Exception
+     * @return mixed|\PhpCsFixer\Cache\CacheInterface
+     */
+    function cache()
+    {
+        $arguments = func_get_args();
+
+        if (empty($arguments)) {
+            return app(\PhpCsFixer\Cache\CacheInterface::class);
+        }
+
+        if (is_string($arguments[0])) {
+            return app(\PhpCsFixer\Cache\CacheInterface::class)->get(...$arguments);
+        }
+
+        if (! is_array($arguments[0])) {
+            throw new Exception(
+                'When setting a value in the cache, you must pass an array of key / value pairs.'
+            );
+        }
+
+        return app(\PhpCsFixer\Cache\CacheInterface::class)->set(key($arguments[0]), reset($arguments[0]), $arguments[1] ?? null);
     }
 }
 
