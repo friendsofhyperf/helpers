@@ -1,0 +1,29 @@
+{
+    "name": "friendsofhyperf/helpers",
+    "description": "The commonly used functions for hyperf.",
+    "type": "library",
+    "require": {},
+    "require-dev": {
+        "hyperf/framework": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.04",
+        "swoole/ide-helper": "dev-master",
+        "hyperf/utils": "^2.0",
+        "hyperf/di": "^2.0",
+        "hyperf/logger": "^2.0",
+        "phpstan/phpstan": "^0.12"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "license": "MIT",
+    "authors": [{
+        "name": "huangdijia",
+        "email": "huangdijia@gmail.com"
+    }],
+    "scripts": {
+        "cs-fix": "php-cs-fixer fix $1",
+        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./src"
+    }
+}
