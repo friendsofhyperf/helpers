@@ -133,10 +133,8 @@ if (! function_exists('cookie')) {
      */
     function cookie($name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
-        $cookie = app(\Hyperf\HttpMessage\Cookie\CookieJarInterface::class);
-
         if (is_null($name)) {
-            return $cookie;
+            return app(\Hyperf\HttpMessage\Cookie\CookieJarInterface::class);
         }
 
         $time = ($minutes == 0) ? 0 : $minutes * 60;
