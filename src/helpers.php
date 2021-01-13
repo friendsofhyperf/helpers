@@ -142,11 +142,11 @@ if (! function_exists('dispatch')) {
         if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
             /** @var \Hyperf\AsyncQueue\Driver\DriverInterface $driver */
             $driver = app(\Hyperf\AsyncQueue\Driver\DriverFactory::class)->get($queue ?? $job->queue ?? 'default');
-
             return $driver->push($job, $job->delay ?? 0);
         }
 
         if ($job instanceof \Hyperf\Amqp\Message\ProducerMessageInterface) {
+            /** @var \Hyperf\Amqp\Producer $producer */
             $producer = app(\Hyperf\Amqp\Producer::class);
             return $producer->produce($job);
         }
