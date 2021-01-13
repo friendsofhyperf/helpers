@@ -15,6 +15,7 @@
         "hyperf/cache": "^2.1",
         "hyperf/async-queue": "^2.1",
         "hyperf/amqp": "^2.1",
+        "hyperf/kafka": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpstan/phpstan": "^0.12",
         "nesbot/carbon": "^2.43",

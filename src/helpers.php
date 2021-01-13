@@ -130,7 +130,7 @@ if (! function_exists('cookie')) {
 
 if (! function_exists('dispatch')) {
     /**
-     * @param \Hyperf\Amqp\Message\ProducerMessage|\Hyperf\AsyncQueue\JobInterface $job
+     * @param \Hyperf\Amqp\Message\ProducerMessage|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
      * @param null|string $queue
      * @throws TypeError
      * @throws InvalidDriverException
@@ -146,9 +146,15 @@ if (! function_exists('dispatch')) {
             return $driver->push($job, $job->delay ?? 0);
         }
 
-        if ($job instanceof \Hyperf\Amqp\Message\ProducerMessage) {
+        if ($job instanceof \Hyperf\Amqp\Message\ProducerMessageInterface) {
             $producer = app(\Hyperf\Amqp\Producer::class);
             return $producer->produce($job);
+        }
+
+        if ($job instanceof \longlang\phpkafka\Producer\ProduceMessage) {
+            /** @var \Hyperf\Kafka\Producer $producer */
+            $producer = make(\Hyperf\Kafka\Producer::class, ['name' => $queue ?? 'default']);
+            $producer->sendBatch([$job]);
         }
 
         throw new \InvalidArgumentException('Not Support job type.');
