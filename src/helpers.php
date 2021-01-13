@@ -153,7 +153,7 @@ if (! function_exists('dispatch')) {
 
         if ($job instanceof \longlang\phpkafka\Producer\ProduceMessage) {
             /** @var \Hyperf\Kafka\Producer $producer */
-            $producer = make(\Hyperf\Kafka\Producer::class, ['name' => $queue ?? 'default']);
+            $producer = app(\Hyperf\Kafka\Producer::class, ['name' => $queue ?? 'default']);
             $producer->sendBatch([$job]);
         }
 
