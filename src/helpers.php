@@ -442,12 +442,13 @@ if (! function_exists('throw_unless')) {
 if (! function_exists('validator')) {
     /**
      * Create a new Validator instance.
-     *
-     * @return \Hyperf\Contract\ValidatorInterface|\Hyperf\Validation\ValidatorFactory
+     * @throws TypeError
+     * @return \Hyperf\Contract\ValidatorInterface|\Hyperf\Validation\Contract\ValidatorFactoryInterface
      */
     function validator(array $data = [], array $rules = [], array $messages = [], array $customAttributes = [])
     {
-        $factory = app(\Hyperf\Validation\ValidatorFactory::class);
+        /** @var \Hyperf\Validation\Contract\ValidatorFactoryInterface $factory */
+        $factory = app(\Hyperf\Validation\Contract\ValidatorFactoryInterface::class);
 
         if (func_num_args() === 0) {
             return $factory;
