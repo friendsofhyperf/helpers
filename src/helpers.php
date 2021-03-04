@@ -130,7 +130,7 @@ if (! function_exists('cookie')) {
 
 if (! function_exists('dispatch')) {
     /**
-     * @param \Hyperf\Amqp\Message\ProducerMessage|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
+     * @param \Hyperf\Amqp\Message\ProducerMessageInterface|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
      * @param null|string $queue
      * @throws TypeError
      * @throws InvalidDriverException
@@ -305,13 +305,14 @@ if (! function_exists('preg_replace_array')) {
 if (! function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.
-     *
      * @param null|array|string $key
      * @param mixed $default
-     * @return array|\Hyperf\HttpServer\Contract\RequestInterface|\Psr\Http\Message\RequestInterface|string
+     * @throws TypeError
+     * @return array|\Hyperf\HttpServer\Contract\RequestInterface|mixed
      */
     function request($key = null, $default = null)
     {
+        /** @var \Hyperf\HttpServer\Contract\RequestInterface $request */
         $request = app(\Hyperf\HttpServer\Contract\RequestInterface::class);
 
         if (is_null($key)) {
