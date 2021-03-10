@@ -481,8 +481,8 @@ if (! function_exists('get_client_ip')) {
      */
     function get_client_ip(): string
     {
-        /** @var \Psr\Http\Message\ServerRequestInterface $request */
-        $request = app(\Psr\Http\Message\ServerRequestInterface::class);
-        return $request->getHeader('x-real-ip')[0] ?? $request->getServerParams()['remote_addr'] ?? '127.0.0.1';
+        /** @var \Hyperf\HttpServer\Contract\RequestInterface $request */
+        $request = app(\Hyperf\HttpServer\Contract\RequestInterface::class);
+        return $request->getHeaderLine('x-real-ip');
     }
 }
