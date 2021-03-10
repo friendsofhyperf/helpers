@@ -483,6 +483,6 @@ if (! function_exists('get_client_ip')) {
     {
         /** @var \Hyperf\HttpServer\Contract\RequestInterface $request */
         $request = app(\Hyperf\HttpServer\Contract\RequestInterface::class);
-        return $request->getHeaderLine('x-real-ip');
+        return $request->getHeaderLine('x-real-ip') ?: $request->server('remote_addr');
     }
 }
