@@ -209,8 +209,13 @@ if (! function_exists('info')) {
      * @param string $message
      * @throws TypeError
      */
-    function info($message, array $context = [])
+    function info($message, array $context = [], bool $backtrace = false)
     {
+        if ($backtrace) {
+            $tracking = debug_backtrace();
+            $context['backtrace'] = sprintf('%s:%s', $tracking[0]['file'], $tracking[0]['line']);
+        }
+
         return logs()->info($message, $context);
     }
 }
@@ -221,10 +226,15 @@ if (! function_exists('logger')) {
      * @throws TypeError
      * @return \Psr\Log\LoggerInterface|void
      */
-    function logger($message = null, array $context = [])
+    function logger($message = null, array $context = [], bool $backtrace = false)
     {
         if (is_null($message)) {
             return logs();
+        }
+
+        if ($backtrace) {
+            $tracking = debug_backtrace();
+            $context['backtrace'] = sprintf('%s:%s', $tracking['file'], $tracking['line']);
         }
 
         return logs()->debug($message, $context);
