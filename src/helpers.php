@@ -212,8 +212,8 @@ if (! function_exists('info')) {
     function info($message, array $context = [], bool $backtrace = false)
     {
         if ($backtrace) {
-            $tracking = debug_backtrace();
-            $context['backtrace'] = sprintf('%s:%s', $tracking[0]['file'], $tracking[0]['line']);
+            $traces = debug_backtrace();
+            $context['backtrace'] = sprintf('%s:%s', $traces[0]['file'], $traces[0]['line']);
         }
 
         return logs()->info($message, $context);
@@ -233,8 +233,8 @@ if (! function_exists('logger')) {
         }
 
         if ($backtrace) {
-            $tracking = debug_backtrace();
-            $context['backtrace'] = sprintf('%s:%s', $tracking['file'], $tracking['line']);
+            $traces = debug_backtrace();
+            $context['backtrace'] = sprintf('%s:%s', $traces['file'], $traces['line']);
         }
 
         return logs()->debug($message, $context);
