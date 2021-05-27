@@ -16,6 +16,7 @@ if (! function_exists('app')) {
     function app(string $abstract = null, array $parameters = [])
     {
         if (\Hyperf\Utils\ApplicationContext::hasContainer()) {
+            /** @var \Hyperf\Contract\ContainerInterface $container */
             $container = \Hyperf\Utils\ApplicationContext::getContainer();
 
             if (is_null($abstract)) {
@@ -23,12 +24,10 @@ if (! function_exists('app')) {
             }
 
             if (count($parameters) == 0 && $container->has($abstract)) {
-                return $container->get($abstract, $parameters);
+                return $container->get($abstract);
             }
 
-            if (method_exists($container, 'make')) {
-                return call_user_func_array([$container, 'make'], [$abstract, array_values($parameters)]);
-            }
+            return $container->make($abstract, $parameters);
         }
 
         if (is_null($abstract)) {
@@ -502,5 +501,26 @@ if (! function_exists('get_client_ip')) {
         /** @var \Hyperf\HttpServer\Contract\RequestInterface $request */
         $request = app(\Hyperf\HttpServer\Contract\RequestInterface::class);
         return $request->getHeaderLine('x-real-ip') ?: $request->server('remote_addr');
+    }
+}
+
+if (! function_exists('call_command')) {
+    /**
+     * Call command quickly.
+     * @throws TypeError
+     * @throws Exception
+     * @return int
+     */
+    function call_command(string $command, array $arguments = [])
+    {
+        $arguments['command'] = $command;
+        $input = new \Symfony\Component\Console\Input\ArrayInput($arguments);
+        $output = new \Symfony\Component\Console\Output\NullOutput();
+
+        /** @var \Symfony\Component\Console\Application $application */
+        $application = app(\Hyperf\Contract\ApplicationInterface::class);
+        $application->setAutoExit(false);
+
+        return $application->run($input, $output);
     }
 }
