@@ -6,25 +6,36 @@
         "php": ">=7.2"
     },
     "require-dev": {
-        "hyperf/framework": "^2.1",
-        "hyperf/utils": "^2.1",
-        "hyperf/di": "^2.1",
-        "hyperf/logger": "^2.1",
-        "hyperf/validation": "^2.1",
-        "hyperf/session": "^2.1",
-        "hyperf/cache": "^2.1",
-        "hyperf/async-queue": "^2.1",
-        "hyperf/amqp": "^2.1",
-        "hyperf/kafka": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.14",
-        "phpstan/phpstan": "^0.12",
+        "hyperf/amqp": "^2.1",
+        "hyperf/async-queue": "^2.1",
+        "hyperf/cache": "^2.1",
+        "hyperf/di": "^2.1",
+        "hyperf/framework": "^2.1",
+        "hyperf/kafka": "dev-master",
+        "hyperf/logger": "^2.1",
+        "hyperf/session": "^2.1",
+        "hyperf/utils": "^2.1",
+        "hyperf/validation": "^2.1",
         "nesbot/carbon": "^2.43",
-        "swoole/ide-helper": "dev-master"
+        "phpstan/phpstan": "^0.12",
+        "swoole/ide-helper": "^4.6"
     },
     "autoload": {
         "files": [
             "src/helpers.php"
-        ]
+        ],
+        "psr-4": {
+            "FriendsOfHyperf\\Helpers\\": "src/"
+        }
+    },
+    "extra": {
+        "hyperf": {
+            "config": "FriendsOfHyperf\\Helpers\\ConfigProvider"
+        }
+    },
+    "config": {
+        "sort-packages": true
     },
     "license": "MIT",
     "authors": [{
