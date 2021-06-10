@@ -8,15 +8,6 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
-use FriendsOfHyperf\Helpers\Environment;
-
-/*
- * This file is part of hyperf/helpers.
- *
- * @link     https://github.com/friendsofhyperf/helpers
- * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
- * @contact  huangdijia@gmail.com
- */
 if (! function_exists('app')) {
     /**
      * @throws TypeError
@@ -191,11 +182,11 @@ if (! function_exists('environment')) {
     /**
      * @param mixed $environments
      * @throws TypeError
-     * @return bool|\FriendsOfHyperf\Helpers\Environment
+     * @return bool|\FriendsOfHyperf\Helpers\Foundation\Environment
      */
     function environment(...$environments)
     {
-        $environment = app(\FriendsOfHyperf\Helpers\Environment::class);
+        $environment = app(\FriendsOfHyperf\Helpers\Foundation\Environment::class);
 
         if (count($environments) > 0) {
             return $environment->environment(...$environments);

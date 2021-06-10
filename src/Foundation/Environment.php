@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @document https://github.com/friendsofhyperf/helpers/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
-namespace FriendsOfHyperf\Helpers;
+namespace FriendsOfHyperf\Helpers\Foundation;
 
 use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
