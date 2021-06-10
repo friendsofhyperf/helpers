@@ -130,29 +130,28 @@ if (! function_exists('cookie')) {
 if (! function_exists('dispatch')) {
     /**
      * @param \Hyperf\Amqp\Message\ProducerMessageInterface|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
-     * @param null|string $queue
      * @throws TypeError
      * @throws InvalidDriverException
      * @throws InvalidArgumentException
      * @return bool
      */
-    function dispatch($job, $queue = null)
+    function dispatch($job, ...$arguments)
     {
         if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
             /** @var \Hyperf\AsyncQueue\Driver\DriverInterface $driver */
-            $driver = app(\Hyperf\AsyncQueue\Driver\DriverFactory::class)->get($queue ?? $job->queue ?? 'default');
+            $driver = app(\Hyperf\AsyncQueue\Driver\DriverFactory::class)->get((string) ($arguments[0] ?? $job->queue ?? 'default'));
             return $driver->push($job, $job->delay ?? 0);
         }
 
         if ($job instanceof \Hyperf\Amqp\Message\ProducerMessageInterface) {
             /** @var \Hyperf\Amqp\Producer $producer */
             $producer = app(\Hyperf\Amqp\Producer::class);
-            return $producer->produce($job);
+            return $producer->produce($job, ...$arguments);
         }
 
         if ($job instanceof \longlang\phpkafka\Producer\ProduceMessage) {
             /** @var \Hyperf\Kafka\Producer $producer */
-            $producer = make(\Hyperf\Kafka\Producer::class, ['name' => $queue ?? 'default']);
+            $producer = app(\Hyperf\Kafka\ProducerManager::class)->getProducer((string) ($arguments[0] ?? 'default'));
             $producer->sendBatch([$job]);
         }
 
@@ -167,6 +166,7 @@ if (! function_exists('dispatch_now')) {
      * @throws InvalidDriverException
      * @throws InvalidArgumentException
      * @return mixed
+     * @deprecated 0.2.0
      */
     function dispatch_now($job)
     {
