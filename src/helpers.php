@@ -138,7 +138,7 @@ if (! function_exists('dispatch')) {
     function dispatch($job, ...$arguments)
     {
         if ($job instanceof Closure) {
-            $job = new \FriendsOfHyperf\Helpers\Foundation\AsyncQueue\ClosureJob($job);
+            $job = new \FriendsOfHyperf\Helpers\Foundation\AsyncQueue\ClosureJob($job, (int) ($arguments[2] ?? 0));
         }
 
         if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
