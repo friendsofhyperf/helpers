@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace FriendsOfHyperf\Helpers\Foundation\AsyncQueue;
 
 use Closure;
-use Hyperf\AsyncQueue\JobInterface;
+use Hyperf\AsyncQueue\Job;
 use Hyperf\Contract\NormalizerInterface;
 use Hyperf\Di\ClosureDefinitionCollectorInterface;
 use Hyperf\Utils\ApplicationContext;
@@ -20,7 +20,7 @@ use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 use ReflectionFunction;
 
-class ClosureJob implements JobInterface
+class ClosureJob extends Job
 {
     /**
      * @var string
@@ -31,11 +31,6 @@ class ClosureJob implements JobInterface
      * @var string
      */
     public $method;
-
-    /**
-     * @var int
-     */
-    protected $maxAttempts = 0;
 
     /**
      * @var SerializableClosure
@@ -58,11 +53,6 @@ class ClosureJob implements JobInterface
         $parameters = $this->parseClosureParameters($closure, []);
 
         call($closure, $parameters);
-    }
-
-    public function getMaxAttempts(): int
-    {
-        return $this->maxAttempts;
     }
 
     protected function getContainer(): ContainerInterface
