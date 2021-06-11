@@ -3,7 +3,8 @@
     "description": "The commonly used functions for hyperf.",
     "type": "library",
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "opis/closure": "^3.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",

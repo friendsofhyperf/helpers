@@ -129,7 +129,7 @@ if (! function_exists('cookie')) {
 
 if (! function_exists('dispatch')) {
     /**
-     * @param \Hyperf\Amqp\Message\ProducerMessageInterface|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
+     * @param Closure|\Hyperf\Amqp\Message\ProducerMessageInterface|\Hyperf\AsyncQueue\JobInterface|\longlang\phpkafka\Producer\ProduceMessage $job
      * @throws TypeError
      * @throws InvalidDriverException
      * @throws InvalidArgumentException
@@ -137,6 +137,10 @@ if (! function_exists('dispatch')) {
      */
     function dispatch($job, ...$arguments)
     {
+        if ($job instanceof Closure) {
+            $job = new \FriendsOfHyperf\Helpers\Foundation\AsyncQueue\ClosureJob($job);
+        }
+
         if ($job instanceof \Hyperf\AsyncQueue\JobInterface) {
             /** @var \Hyperf\AsyncQueue\Driver\DriverInterface $driver */
             $driver = app(\Hyperf\AsyncQueue\Driver\DriverFactory::class)->get((string) ($arguments[0] ?? $job->queue ?? 'default'));
