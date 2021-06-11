@@ -48,7 +48,7 @@ class ClosureJob implements JobInterface
         $this->maxAttempts = $maxAttempts;
         $this->class = 'Closure';
         $this->method = with(new ReflectionFunction($this->closure->getClosure()), function ($reflection) {
-            return sprintf('%s:%s', str_replace(BASE_PATH, '', $reflection->getFileName()), $reflection->getStartLine());
+            return sprintf('%s:%s', str_replace(rtrim(BASE_PATH, '/') . '/', '', $reflection->getFileName()), $reflection->getStartLine());
         });
     }
 
